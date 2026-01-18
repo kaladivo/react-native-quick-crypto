@@ -105,7 +105,96 @@ std::shared_ptr<ArrayBuffer> HybridEcdh::getPrivateKeyRaw() {
 }
 
 void HybridEcdh::setPrivateKeyRaw(const std::shared_ptr<ArrayBuffer>& privateKey) {
-  throw std::runtime_error("Not implemented: setPrivateKeyRaw");
+  if (privateKey->size() != 32) {
+    throw std::runtime_error("Invalid private key size");
+  }
+
+  clearOpenSSLErrors();
+
+  if (this->pkey != nullptr) {
+    EVP_PKEY_free(this->pkey);
+    this->pkey = nullptr;
+  }
+
+  EC_KEY* ec = EC_KEY_new_by_curve_name(NID_secp256k1);
+  if (!ec) {
+    throw std::runtime_error("Failed to create EC_KEY: " + getOpenSSLError());
+  }
+
+  BIGNUM* privBn = BN_bin2bn(static_cast<const unsigned char*>(privateKey->data()),
+                             static_cast<int>(privateKey->size()), nullptr);
+  if (!privBn) {
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to create BIGNUM from private key: " + getOpenSSLError());
+  }
+
+  const EC_GROUP* group = EC_KEY_get0_group(ec);
+  BIGNUM* order = BN_new();
+  if (!order) {
+    BN_free(privBn);
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to allocate BIGNUM for order");
+  }
+
+  if (EC_GROUP_get_order(group, order, nullptr) != 1) {
+    BN_free(order);
+    BN_free(privBn);
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to get curve order: " + getOpenSSLError());
+  }
+
+  if (BN_is_zero(privBn) || BN_cmp(privBn, order) >= 0) {
+    BN_free(order);
+    BN_free(privBn);
+    EC_KEY_free(ec);
+    throw std::runtime_error("Private key out of range");
+  }
+  BN_free(order);
+
+  if (EC_KEY_set_private_key(ec, privBn) != 1) {
+    BN_free(privBn);
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to set private key: " + getOpenSSLError());
+  }
+
+  EC_POINT* pubPoint = EC_POINT_new(group);
+  if (!pubPoint) {
+    BN_free(privBn);
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to create EC_POINT: " + getOpenSSLError());
+  }
+
+  if (EC_POINT_mul(group, pubPoint, privBn, nullptr, nullptr, nullptr) != 1) {
+    EC_POINT_free(pubPoint);
+    BN_free(privBn);
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to compute public key: " + getOpenSSLError());
+  }
+
+  if (EC_KEY_set_public_key(ec, pubPoint) != 1) {
+    EC_POINT_free(pubPoint);
+    BN_free(privBn);
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to set public key: " + getOpenSSLError());
+  }
+
+  EC_POINT_free(pubPoint);
+  BN_free(privBn);
+
+  this->pkey = EVP_PKEY_new();
+  if (!this->pkey) {
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to create EVP_PKEY: " + getOpenSSLError());
+  }
+
+  if (EVP_PKEY_set1_EC_KEY(this->pkey, ec) != 1) {
+    EVP_PKEY_free(this->pkey);
+    this->pkey = nullptr;
+    EC_KEY_free(ec);
+    throw std::runtime_error("Failed to set EC_KEY on EVP_PKEY: " + getOpenSSLError());
+  }
+
+  EC_KEY_free(ec);
 }
 
 } // namespace margelo::nitro::crypto
