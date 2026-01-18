@@ -12,6 +12,7 @@
     "Cipher": { "cpp": "HybridCipher" },
     "CipherFactory": { "cpp": "HybridCipherFactory" },
     "EcKeyPair": { "cpp": "HybridEcKeyPair" },
+    "Ecdh": { "cpp": "HybridEcdh" },
     "EdKeyPair": { "cpp": "HybridEdKeyPair" },
     "Hash": { "cpp": "HybridHash" },
     "Hmac": { "cpp": "HybridHmac" },

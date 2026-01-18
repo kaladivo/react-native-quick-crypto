@@ -132,7 +132,9 @@ Pod::Spec.new do |s|
     "\"$(PODS_TARGET_SRCROOT)/cpp/hkdf\"",
     "\"$(PODS_TARGET_SRCROOT)/deps/ncrypto/include\"",
     "\"$(PODS_TARGET_SRCROOT)/deps/blake3/c\"",
-    "\"$(PODS_TARGET_SRCROOT)/deps/fastpbkdf2\""
+    "\"$(PODS_TARGET_SRCROOT)/deps/fastpbkdf2\"",
+    "\"${PODS_ROOT}/Headers/Private\"",
+    "\"${PODS_ROOT}/Headers/Public\""
   ]
 
   if sodium_enabled
