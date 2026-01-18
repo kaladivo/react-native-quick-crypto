@@ -35,6 +35,7 @@ add_library(
   ../cpp/cipher/ChaCha20Cipher.cpp
   ../cpp/cipher/ChaCha20Poly1305Cipher.cpp
   ../cpp/ec/HybridEcKeyPair.cpp
+  ../cpp/ecdh/HybridEcdh.cpp
   ../cpp/ed25519/HybridEdKeyPair.cpp
   ../cpp/hash/HybridHash.cpp
   ../cpp/hmac/HybridHmac.cpp
@@ -63,6 +64,7 @@ include_directories(
   "../cpp/blake3"
   "../cpp/cipher"
   "../cpp/ec"
+  "../cpp/ecdh"
   "../cpp/ed25519"
   "../cpp/hash"
   "../cpp/hkdf"
