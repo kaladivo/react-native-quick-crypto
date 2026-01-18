@@ -46,6 +46,29 @@ Plans:
 4. User can import a private key and retrieve the auto-derived public key
 5. User can export keys with hex, base64, and buffer encodings
 
+### Phase 1.1: Fix Expo Build (INSERTED)
+
+**Goal:** Fix pre-existing library build issues to enable ECDH verification in example app
+
+**Depends on:** Phase 1
+
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01.1-01-PLAN.md — Add Ecdh to nitro.json + run Nitrogen codegen (Android fix)
+- [ ] 01.1-02-PLAN.md — Add NitroModules header paths to QuickCrypto.podspec (iOS fix)
+- [ ] 01.1-03-PLAN.md — Build verification and ECDH testing checkpoint
+
+**Context:**
+- iOS build fails: NitroModules headers not found (`#error NitroModules cannot be found!`)
+- Android issue: HybridEcdh not registered in QuickCryptoOnLoad.cpp (missing from nitro.json)
+- Root causes identified via research - both are configuration issues, not code bugs
+- Issues are pre-existing in the library, not caused by ECDH changes
+
+**Success Criteria:**
+1. Expo app builds successfully on at least one platform (Android or iOS)
+2. ECDH tests run in emulator/simulator and all pass
+
 ### Phase 2: Secret Derivation
 
 **Goal:** Users can derive shared secrets from key pairs with proper security validation.
@@ -93,9 +116,11 @@ Plans:
 | Phase | Name | Status | Requirements |
 |-------|------|--------|--------------|
 | 1 | Core ECDH | Planned | 13 |
+| 1.1 | Fix Expo Build | Planned | 0 (infrastructure) |
 | 2 | Secret Derivation | Pending | 7 |
 | 3 | Extras | Pending | 4 |
 
 ---
 *Roadmap created: 2025-01-18*
 *Phase 1 planned: 2025-01-18*
+*Phase 1.1 planned: 2026-01-18*
