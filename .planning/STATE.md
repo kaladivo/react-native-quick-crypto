@@ -1,6 +1,6 @@
 # Project State
 
-**Current Phase:** 1
+**Current Phase:** 1.1
 **Status:** In Progress
 
 ## Project Reference
@@ -8,24 +8,25 @@
 See: .planning/PROJECT.md (updated 2025-01-18)
 
 **Core value:** Users can derive shared secrets using ECDH with secp256k1, matching Node.js crypto behavior exactly
-**Current focus:** Phase 1 - Core ECDH (Plan 03 complete)
+**Current focus:** Phase 1.1 - Fix Expo Build (Plan 02 complete)
 
 ## Progress
 
 | Phase | Name | Status | Plans |
 |-------|------|--------|-------|
-| 1 | Core ECDH | In Progress | 3/? |
+| 1 | Core ECDH | Blocked | 3/? |
+| 1.1 | Fix Expo Build | In Progress | 2/3 |
 | 2 | Secret Derivation | Pending | 0/? |
 | 3 | Extras | Pending | 0/? |
 
 ## Current Position
 
 ```
-Phase 1: Core ECDH
-Plan: 01-03-PLAN.md complete
-[============        ] 60% (estimated)
+Phase 1.1: Fix Expo Build
+Plan: 02 complete, 03 pending (verification)
+[================    ] 80%
 
-Last activity: 2026-01-18 - Completed 01-03-PLAN.md (TypeScript ECDH Wrapper)
+Last activity: 2026-01-18 - Completed 01.1-02-PLAN.md (NitroModules header paths)
 ```
 
 ## Accumulated Context
@@ -42,6 +43,7 @@ Last activity: 2026-01-18 - Completed 01-03-PLAN.md (TypeScript ECDH Wrapper)
 - Default format is uncompressed (65 bytes) matching Node.js default
 - Binary encoding is alias for latin1 per Node.js crypto behavior
 - ERR_CRYPTO_INVALID_CURVE error code for unsupported curves
+- Use ${PODS_ROOT}/Headers/{Private,Public} for NitroModules framework-style includes
 
 ### Technical Notes
 
@@ -53,6 +55,7 @@ Last activity: 2026-01-18 - Completed 01-03-PLAN.md (TypeScript ECDH Wrapper)
 - BN_bn2binpad for 32-byte private key export
 - Proper resource cleanup on all error paths
 - ECDH TypeScript class wraps native via NitroModules.createHybridObject
+- PODS_ROOT/Headers/{Private,Public} enables framework-style includes for CocoaPods dependencies
 
 ### Patterns Established
 
@@ -61,21 +64,27 @@ Last activity: 2026-01-18 - Completed 01-03-PLAN.md (TypeScript ECDH Wrapper)
 - OpenSSL resource cleanup on all error paths before throwing
 - Factory function validates curve before creating instance
 - encodeOutput/decodeInput helpers for Buffer/string conversion
+- ${PODS_ROOT}/Headers paths for framework-style dependency includes
 
 ### Blockers
 
-None
+- Pod reinstall required to verify NitroModules header fix (next step)
+
+### Roadmap Evolution
+
+- Phase 1.1 inserted after Phase 1: Fix Expo build issues for ECDH verification (URGENT)
 
 ### TODOs
 
+- Execute Phase 1.1 Plan 03 (verify iOS build)
 - Execute Phase 2 (computeSecret implementation)
 - Execute Phase 3 (Extras)
 
 ## Session Continuity
 
-**Last session:** 2026-01-18 09:40 UTC
-**Stopped at:** Completed 01-03-PLAN.md
-**Resume file:** Next plan in sequence (likely 02-01-PLAN.md if Phase 2 planning exists)
+**Last session:** 2026-01-18 19:23 UTC
+**Stopped at:** Completed 01.1-02-PLAN.md
+**Resume file:** .planning/phases/01.1-fix-expo-build/01.1-03-PLAN.md (if exists)
 
 ---
 *State updated: 2026-01-18*
