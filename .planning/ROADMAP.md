@@ -16,6 +16,14 @@ This roadmap delivers ECDH key exchange with secp256k1 curve support for React N
 
 **Dependencies:** None (foundation phase)
 
+**Plans:** 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Native ECDH infrastructure (Nitro + C++ skeleton + build)
+- [ ] 01-02-PLAN.md — C++ key operations (generateKeys, get/set keys)
+- [ ] 01-03-PLAN.md — TypeScript ECDH class and package exports
+- [ ] 01-04-PLAN.md — End-to-end verification checkpoint
+
 **Requirements:**
 - ECDH-01: `createECDH('secp256k1')` returns ECDH instance
 - ECDH-02: `generateKeys()` generates secp256k1 key pair
@@ -44,6 +52,8 @@ This roadmap delivers ECDH key exchange with secp256k1 curve support for React N
 
 **Dependencies:** Phase 1 (requires key generation and import)
 
+**Plans:** (created by /gsd:plan-phase)
+
 **Requirements:**
 - ECDH-05: `computeSecret(otherPublicKey)` derives 32-byte shared secret
 - ECDH-06: `computeSecret()` accepts Buffer input
@@ -65,6 +75,8 @@ This roadmap delivers ECDH key exchange with secp256k1 curve support for React N
 
 **Dependencies:** Phase 1 (requires key infrastructure)
 
+**Plans:** (created by /gsd:plan-phase)
+
 **Requirements:**
 - ECDH-19: `setPublicKey(key)` imports public key (deprecated but supported)
 - ECDH-20: `setPublicKey()` accepts compressed and uncompressed formats
@@ -80,9 +92,10 @@ This roadmap delivers ECDH key exchange with secp256k1 curve support for React N
 
 | Phase | Name | Status | Requirements |
 |-------|------|--------|--------------|
-| 1 | Core ECDH | Pending | 13 |
+| 1 | Core ECDH | Planned | 13 |
 | 2 | Secret Derivation | Pending | 7 |
 | 3 | Extras | Pending | 4 |
 
 ---
 *Roadmap created: 2025-01-18*
+*Phase 1 planned: 2025-01-18*
