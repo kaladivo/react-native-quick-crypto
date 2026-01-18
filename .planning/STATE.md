@@ -8,7 +8,7 @@
 See: .planning/PROJECT.md (updated 2025-01-18)
 
 **Core value:** Users can derive shared secrets using ECDH with secp256k1, matching Node.js crypto behavior exactly
-**Current focus:** Phase 1.1 - Fix Expo Build (Plan 02 complete)
+**Current focus:** Phase 1.1 - Fix Expo Build (Plans 01, 02 complete)
 
 ## Progress
 
@@ -23,10 +23,10 @@ See: .planning/PROJECT.md (updated 2025-01-18)
 
 ```
 Phase 1.1: Fix Expo Build
-Plan: 02 complete, 03 pending (verification)
+Plans: 01, 02 complete; 03 pending (verification)
 [================    ] 80%
 
-Last activity: 2026-01-18 - Completed 01.1-02-PLAN.md (NitroModules header paths)
+Last activity: 2026-01-18 - Completed 01.1-01-PLAN.md (Nitrogen codegen for HybridEcdh)
 ```
 
 ## Accumulated Context
@@ -56,6 +56,7 @@ Last activity: 2026-01-18 - Completed 01.1-02-PLAN.md (NitroModules header paths
 - Proper resource cleanup on all error paths
 - ECDH TypeScript class wraps native via NitroModules.createHybridObject
 - PODS_ROOT/Headers/{Private,Public} enables framework-style includes for CocoaPods dependencies
+- HybridEcdh registered in Nitrogen autolinking (nitro.json + codegen)
 
 ### Patterns Established
 
@@ -65,6 +66,7 @@ Last activity: 2026-01-18 - Completed 01.1-02-PLAN.md (NitroModules header paths
 - Factory function validates curve before creating instance
 - encodeOutput/decodeInput helpers for Buffer/string conversion
 - ${PODS_ROOT}/Headers paths for framework-style dependency includes
+- New HybridObject requires nitro.json autolinking entry + Nitrogen codegen run
 
 ### Blockers
 
@@ -82,8 +84,8 @@ Last activity: 2026-01-18 - Completed 01.1-02-PLAN.md (NitroModules header paths
 
 ## Session Continuity
 
-**Last session:** 2026-01-18 19:23 UTC
-**Stopped at:** Completed 01.1-02-PLAN.md
+**Last session:** 2026-01-18 19:26 UTC
+**Stopped at:** Completed 01.1-01-PLAN.md (Nitrogen codegen for HybridEcdh)
 **Resume file:** .planning/phases/01.1-fix-expo-build/01.1-03-PLAN.md (if exists)
 
 ---
