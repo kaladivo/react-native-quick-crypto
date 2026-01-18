@@ -9,6 +9,7 @@ import '../tests/cipher/xsalsa20_tests';
 import '../tests/cfrg/ed25519_tests';
 import '../tests/cfrg/x25519_tests';
 import '../tests/constants/constants_tests';
+import '../tests/ecdh/ecdh_tests';
 import '../tests/hash/hash_tests';
 import '../tests/hmac/hmac_tests';
 import '../tests/hkdf/hkdf_tests';
