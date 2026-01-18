@@ -1,32 +1,32 @@
 # Project State
 
-**Current Phase:** 1.1
-**Status:** In Progress
+**Current Phase:** 2
+**Status:** Ready to Plan
 
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2025-01-18)
 
 **Core value:** Users can derive shared secrets using ECDH with secp256k1, matching Node.js crypto behavior exactly
-**Current focus:** Phase 1.1 - Fix Expo Build (Plans 01, 02 complete)
+**Current focus:** Phase 2 - Secret Derivation (ready to plan)
 
 ## Progress
 
 | Phase | Name | Status | Plans |
 |-------|------|--------|-------|
-| 1 | Core ECDH | Blocked | 3/? |
-| 1.1 | Fix Expo Build | In Progress | 2/3 |
-| 2 | Secret Derivation | Pending | 0/? |
+| 1 | Core ECDH | ✓ Complete | 3/3 |
+| 1.1 | Fix Expo Build | ✓ Complete | 3/3 |
+| 2 | Secret Derivation | Ready to Plan | 0/? |
 | 3 | Extras | Pending | 0/? |
 
 ## Current Position
 
 ```
-Phase 1.1: Fix Expo Build
-Plans: 01, 02 complete; 03 pending (verification)
-[================    ] 80%
+Phase 2: Secret Derivation
+Status: Ready to plan
+[                    ] 0%
 
-Last activity: 2026-01-18 - Completed 01.1-01-PLAN.md (Nitrogen codegen for HybridEcdh)
+Last activity: 2026-01-18 - Phase 1.1 complete, ECDH verified working
 ```
 
 ## Accumulated Context
@@ -67,26 +67,26 @@ Last activity: 2026-01-18 - Completed 01.1-01-PLAN.md (Nitrogen codegen for Hybr
 - encodeOutput/decodeInput helpers for Buffer/string conversion
 - ${PODS_ROOT}/Headers paths for framework-style dependency includes
 - New HybridObject requires nitro.json autolinking entry + Nitrogen codegen run
+- ECDH tests added to example app for regression testing
 
 ### Blockers
 
-- Pod reinstall required to verify NitroModules header fix (next step)
+None
 
 ### Roadmap Evolution
 
-- Phase 1.1 inserted after Phase 1: Fix Expo build issues for ECDH verification (URGENT)
+- Phase 1.1 inserted after Phase 1: Fix Expo build issues for ECDH verification (COMPLETE)
 
 ### TODOs
 
-- Execute Phase 1.1 Plan 03 (verify iOS build)
-- Execute Phase 2 (computeSecret implementation)
-- Execute Phase 3 (Extras)
+- Plan and execute Phase 2 (computeSecret implementation)
+- Plan and execute Phase 3 (Extras)
 
 ## Session Continuity
 
-**Last session:** 2026-01-18 19:26 UTC
-**Stopped at:** Completed 01.1-01-PLAN.md (Nitrogen codegen for HybridEcdh)
-**Resume file:** .planning/phases/01.1-fix-expo-build/01.1-03-PLAN.md (if exists)
+**Last session:** 2026-01-18
+**Stopped at:** Phase 1.1 complete, all ECDH tests passing
+**Next step:** /gsd:plan-phase 2 or /gsd:discuss-phase 2
 
 ---
 *State updated: 2026-01-18*

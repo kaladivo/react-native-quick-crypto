@@ -19,10 +19,10 @@ This roadmap delivers ECDH key exchange with secp256k1 curve support for React N
 **Plans:** 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Native ECDH infrastructure (Nitro + C++ skeleton + build)
-- [ ] 01-02-PLAN.md — C++ key operations (generateKeys, get/set keys)
-- [ ] 01-03-PLAN.md — TypeScript ECDH class and package exports
-- [ ] 01-04-PLAN.md — End-to-end verification checkpoint
+- [x] 01-01-PLAN.md — Native ECDH infrastructure (Nitro + C++ skeleton + build)
+- [x] 01-02-PLAN.md — C++ key operations (generateKeys, get/set keys)
+- [x] 01-03-PLAN.md — TypeScript ECDH class and package exports
+- [ ] 01-04-PLAN.md — End-to-end verification checkpoint (deferred to Phase 1.1)
 
 **Requirements:**
 - ECDH-01: `createECDH('secp256k1')` returns ECDH instance
@@ -55,9 +55,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01.1-01-PLAN.md — Add Ecdh to nitro.json + run Nitrogen codegen (Android fix)
-- [ ] 01.1-02-PLAN.md — Add NitroModules header paths to QuickCrypto.podspec (iOS fix)
-- [ ] 01.1-03-PLAN.md — Build verification and ECDH testing checkpoint
+- [x] 01.1-01-PLAN.md — Add Ecdh to nitro.json + run Nitrogen codegen (Android fix)
+- [x] 01.1-02-PLAN.md — Add NitroModules header paths to QuickCrypto.podspec (iOS fix)
+- [x] 01.1-03-PLAN.md — Build verification and ECDH testing checkpoint
 
 **Context:**
 - iOS build fails: NitroModules headers not found (`#error NitroModules cannot be found!`)
@@ -115,8 +115,8 @@ Plans:
 
 | Phase | Name | Status | Requirements |
 |-------|------|--------|--------------|
-| 1 | Core ECDH | Planned | 13 |
-| 1.1 | Fix Expo Build | Planned | 0 (infrastructure) |
+| 1 | Core ECDH | ✓ Complete | 13 |
+| 1.1 | Fix Expo Build | ✓ Complete | 0 (infrastructure) |
 | 2 | Secret Derivation | Pending | 7 |
 | 3 | Extras | Pending | 4 |
 
@@ -124,3 +124,4 @@ Plans:
 *Roadmap created: 2025-01-18*
 *Phase 1 planned: 2025-01-18*
 *Phase 1.1 planned: 2026-01-18*
+*Phase 1.1 complete: 2026-01-18*
