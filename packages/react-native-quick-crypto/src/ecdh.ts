@@ -7,11 +7,11 @@ type ECDHFormat = 'compressed' | 'uncompressed';
 
 export class ECDH {
   private native: Ecdh;
-  private _curve: string;
+  readonly curve: string;
 
   constructor(curve: string) {
     this.native = NitroModules.createHybridObject<Ecdh>('Ecdh');
-    this._curve = curve;
+    this.curve = curve;
     this.native.setCurve(curve);
   }
 
