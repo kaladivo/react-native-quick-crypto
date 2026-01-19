@@ -1,32 +1,33 @@
 # Project State
 
 **Current Phase:** 2
-**Status:** Ready to Plan
+**Status:** In Progress
 
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2025-01-18)
 
 **Core value:** Users can derive shared secrets using ECDH with secp256k1, matching Node.js crypto behavior exactly
-**Current focus:** Phase 2 - Secret Derivation (ready to plan)
+**Current focus:** Phase 2 - Secret Derivation (in progress)
 
 ## Progress
 
 | Phase | Name | Status | Plans |
 |-------|------|--------|-------|
-| 1 | Core ECDH | ✓ Complete | 3/3 |
-| 1.1 | Fix Expo Build | ✓ Complete | 3/3 |
-| 2 | Secret Derivation | Ready to Plan | 0/? |
+| 1 | Core ECDH | Complete | 3/3 |
+| 1.1 | Fix Expo Build | Complete | 3/3 |
+| 2 | Secret Derivation | In Progress | 1/3 |
 | 3 | Extras | Pending | 0/? |
 
 ## Current Position
 
 ```
 Phase 2: Secret Derivation
-Status: Ready to plan
-[                    ] 0%
+Plan: 1 of 3
+Status: In progress
+[======              ] 30%
 
-Last activity: 2026-01-18 - Phase 1.1 complete, ECDH verified working
+Last activity: 2026-01-19 - Completed 02-01-PLAN.md (C++ computeSecretRaw)
 ```
 
 ## Accumulated Context
@@ -44,11 +45,14 @@ Last activity: 2026-01-18 - Phase 1.1 complete, ECDH verified working
 - Binary encoding is alias for latin1 per Node.js crypto behavior
 - ERR_CRYPTO_INVALID_CURVE error code for unsupported curves
 - Use ${PODS_ROOT}/Headers/{Private,Public} for NitroModules framework-style includes
+- EVP_PKEY_derive API for ECDH shared secret computation (02-01)
+- EC_POINT_oct2point validates curve membership during public key import (02-01)
+- ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY error code for invalid public keys (02-01)
 
 ### Technical Notes
 
 - Created HybridEcdh with EVP_PKEY lifecycle management (freed in destructor)
-- Use EVP_PKEY_derive API (OpenSSL 3.6+) for future computeSecret
+- Use EVP_PKEY_derive API (OpenSSL 3.6+) for computeSecret
 - EC_POINT_point2oct for raw key export (not EVP_PKEY_get_raw_public_key)
 - Auto-derive public key from private via EC_POINT_mul
 - setCurve validates secp256k1 is the only supported curve
@@ -57,10 +61,12 @@ Last activity: 2026-01-18 - Phase 1.1 complete, ECDH verified working
 - ECDH TypeScript class wraps native via NitroModules.createHybridObject
 - PODS_ROOT/Headers/{Private,Public} enables framework-style includes for CocoaPods dependencies
 - HybridEcdh registered in Nitrogen autolinking (nitro.json + codegen)
+- computeSecretRaw accepts 33-byte compressed or 65-byte uncompressed public keys
+- computeSecretRaw returns 32-byte shared secret for secp256k1
 
 ### Patterns Established
 
-- ECDH Nitro interface with raw key methods (getPublicKeyRaw, getPrivateKeyRaw, setPrivateKeyRaw)
+- ECDH Nitro interface with raw key methods (getPublicKeyRaw, getPrivateKeyRaw, setPrivateKeyRaw, computeSecretRaw)
 - clearOpenSSLErrors() before operations, getOpenSSLError() in error messages
 - OpenSSL resource cleanup on all error paths before throwing
 - Factory function validates curve before creating instance
@@ -68,6 +74,8 @@ Last activity: 2026-01-18 - Phase 1.1 complete, ECDH verified working
 - ${PODS_ROOT}/Headers paths for framework-style dependency includes
 - New HybridObject requires nitro.json autolinking entry + Nitrogen codegen run
 - ECDH tests added to example app for regression testing
+- ECDH derivation: EVP_PKEY_CTX_new -> derive_init -> derive_set_peer -> derive
+- Peer public key import: EC_KEY -> EC_POINT_oct2point -> EC_KEY_set_public_key -> EVP_PKEY
 
 ### Blockers
 
@@ -79,14 +87,15 @@ None
 
 ### TODOs
 
-- Plan and execute Phase 2 (computeSecret implementation)
+- Execute Phase 2 Plan 02 (TypeScript wrapper)
+- Execute Phase 2 Plan 03 (Testing)
 - Plan and execute Phase 3 (Extras)
 
 ## Session Continuity
 
-**Last session:** 2026-01-18
-**Stopped at:** Phase 1.1 complete, all ECDH tests passing
-**Next step:** /gsd:plan-phase 2 or /gsd:discuss-phase 2
+**Last session:** 2026-01-19
+**Stopped at:** Completed 02-01-PLAN.md (C++ computeSecretRaw implementation)
+**Next step:** /gsd:execute-phase 2 (Plan 02)
 
 ---
-*State updated: 2026-01-18*
+*State updated: 2026-01-19*
