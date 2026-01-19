@@ -75,7 +75,12 @@ Plans:
 
 **Dependencies:** Phase 1 (requires key generation and import)
 
-**Plans:** (created by /gsd:plan-phase)
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — C++ computeSecretRaw implementation with EVP_PKEY_derive
+- [ ] 02-02-PLAN.md — TypeScript integration + Nitrogen codegen
+- [ ] 02-03-PLAN.md — Test suite and verification checkpoint
 
 **Requirements:**
 - ECDH-05: `computeSecret(otherPublicKey)` derives 32-byte shared secret
@@ -84,7 +89,7 @@ Plans:
 - ECDH-08: `computeSecret()` returns Buffer or encoded string based on outputEncoding
 - ECDH-09: `computeSecret()` throws `ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY` for invalid keys
 - ECDH-23: Public key validation prevents invalid curve attacks (per CVE-2024-48930)
-- ECDH-24: Private key validation ensures key is in valid range [1, n-1]
+- ECDH-24: Private key validation ensures key is in valid range [1, n-1] (already implemented in Phase 1)
 
 **Success Criteria:**
 1. User can derive a shared secret by calling `computeSecret()` with another party's public key
@@ -115,9 +120,9 @@ Plans:
 
 | Phase | Name | Status | Requirements |
 |-------|------|--------|--------------|
-| 1 | Core ECDH | ✓ Complete | 13 |
-| 1.1 | Fix Expo Build | ✓ Complete | 0 (infrastructure) |
-| 2 | Secret Derivation | Pending | 7 |
+| 1 | Core ECDH | Complete | 13 |
+| 1.1 | Fix Expo Build | Complete | 0 (infrastructure) |
+| 2 | Secret Derivation | Planned | 7 |
 | 3 | Extras | Pending | 4 |
 
 ---
@@ -125,3 +130,4 @@ Plans:
 *Phase 1 planned: 2025-01-18*
 *Phase 1.1 planned: 2026-01-18*
 *Phase 1.1 complete: 2026-01-18*
+*Phase 2 planned: 2026-01-19*
