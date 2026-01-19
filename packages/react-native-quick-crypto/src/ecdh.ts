@@ -39,6 +39,26 @@ export class ECDH {
     this.native.setPrivateKeyRaw(keyBuffer);
   }
 
+  computeSecret(
+    otherPublicKey: Buffer | ArrayBuffer | Uint8Array | string,
+    inputEncoding?: ECDHEncoding,
+    outputEncoding?: ECDHEncoding
+  ): Buffer | string {
+    try {
+      const keyBuffer = this.decodeInput(otherPublicKey, inputEncoding);
+      const secretRaw = this.native.computeSecretRaw(keyBuffer);
+      return this.encodeOutput(secretRaw, outputEncoding);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      if (msg.includes('ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY')) {
+        const err = new Error('Invalid EC public key');
+        (err as NodeJS.ErrnoException).code = 'ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY';
+        throw err;
+      }
+      throw e;
+    }
+  }
+
   private encodeOutput(
     data: ArrayBuffer,
     encoding?: ECDHEncoding
