@@ -16,18 +16,18 @@ See: .planning/PROJECT.md (updated 2025-01-18)
 |-------|------|--------|-------|
 | 1 | Core ECDH | Complete | 3/3 |
 | 1.1 | Fix Expo Build | Complete | 3/3 |
-| 2 | Secret Derivation | In Progress | 1/3 |
+| 2 | Secret Derivation | In Progress | 2/3 |
 | 3 | Extras | Pending | 0/? |
 
 ## Current Position
 
 ```
 Phase 2: Secret Derivation
-Plan: 1 of 3
+Plan: 2 of 3
 Status: In progress
-[======              ] 30%
+[============        ] 60%
 
-Last activity: 2026-01-19 - Completed 02-01-PLAN.md (C++ computeSecretRaw)
+Last activity: 2026-01-19 - Completed 02-02-PLAN.md (TypeScript computeSecret)
 ```
 
 ## Accumulated Context
@@ -48,6 +48,8 @@ Last activity: 2026-01-19 - Completed 02-01-PLAN.md (C++ computeSecretRaw)
 - EVP_PKEY_derive API for ECDH shared secret computation (02-01)
 - EC_POINT_oct2point validates curve membership during public key import (02-01)
 - ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY error code for invalid public keys (02-01)
+- computeSecret reuses decodeInput/encodeOutput helpers (02-02)
+- Native error messages parsed for error codes in TypeScript (02-02)
 
 ### Technical Notes
 
@@ -87,15 +89,14 @@ None
 
 ### TODOs
 
-- Execute Phase 2 Plan 02 (TypeScript wrapper)
 - Execute Phase 2 Plan 03 (Testing)
 - Plan and execute Phase 3 (Extras)
 
 ## Session Continuity
 
 **Last session:** 2026-01-19
-**Stopped at:** Completed 02-01-PLAN.md (C++ computeSecretRaw implementation)
-**Next step:** /gsd:execute-phase 2 (Plan 02)
+**Stopped at:** Completed 02-02-PLAN.md (TypeScript computeSecret)
+**Next step:** /gsd:execute-phase 2 (Plan 03)
 
 ---
 *State updated: 2026-01-19*
