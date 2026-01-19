@@ -197,4 +197,95 @@ void HybridEcdh::setPrivateKeyRaw(const std::shared_ptr<ArrayBuffer>& privateKey
   EC_KEY_free(ec);
 }
 
+std::shared_ptr<ArrayBuffer> HybridEcdh::computeSecretRaw(
+    const std::shared_ptr<ArrayBuffer>& otherPublicKey) {
+  if (!this->pkey) {
+    throw std::runtime_error("No key pair available");
+  }
+
+  clearOpenSSLErrors();
+
+  size_t keyLen = otherPublicKey->size();
+  if (keyLen != 33 && keyLen != 65) {
+    throw std::runtime_error("ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY");
+  }
+
+  EC_KEY* peerEc = EC_KEY_new_by_curve_name(NID_secp256k1);
+  if (!peerEc) {
+    throw std::runtime_error("Failed to create EC_KEY: " + getOpenSSLError());
+  }
+
+  const EC_GROUP* group = EC_KEY_get0_group(peerEc);
+  EC_POINT* peerPoint = EC_POINT_new(group);
+  if (!peerPoint) {
+    EC_KEY_free(peerEc);
+    throw std::runtime_error("Failed to create EC_POINT: " + getOpenSSLError());
+  }
+
+  const uint8_t* keyData = static_cast<const uint8_t*>(otherPublicKey->data());
+  if (EC_POINT_oct2point(group, peerPoint, keyData, keyLen, nullptr) != 1) {
+    EC_POINT_free(peerPoint);
+    EC_KEY_free(peerEc);
+    throw std::runtime_error("ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY");
+  }
+
+  if (EC_KEY_set_public_key(peerEc, peerPoint) != 1) {
+    EC_POINT_free(peerPoint);
+    EC_KEY_free(peerEc);
+    throw std::runtime_error("Failed to set peer public key: " + getOpenSSLError());
+  }
+  EC_POINT_free(peerPoint);
+
+  EVP_PKEY* peerKey = EVP_PKEY_new();
+  if (!peerKey) {
+    EC_KEY_free(peerEc);
+    throw std::runtime_error("Failed to create peer EVP_PKEY: " + getOpenSSLError());
+  }
+
+  if (EVP_PKEY_set1_EC_KEY(peerKey, peerEc) != 1) {
+    EVP_PKEY_free(peerKey);
+    EC_KEY_free(peerEc);
+    throw std::runtime_error("Failed to set peer EC_KEY: " + getOpenSSLError());
+  }
+  EC_KEY_free(peerEc);
+
+  EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(this->pkey, nullptr);
+  if (!ctx) {
+    EVP_PKEY_free(peerKey);
+    throw std::runtime_error("Failed to create derive context: " + getOpenSSLError());
+  }
+
+  if (EVP_PKEY_derive_init(ctx) <= 0) {
+    EVP_PKEY_CTX_free(ctx);
+    EVP_PKEY_free(peerKey);
+    throw std::runtime_error("Failed to init derive: " + getOpenSSLError());
+  }
+
+  if (EVP_PKEY_derive_set_peer(ctx, peerKey) <= 0) {
+    EVP_PKEY_CTX_free(ctx);
+    EVP_PKEY_free(peerKey);
+    throw std::runtime_error("ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY");
+  }
+
+  size_t secretLen;
+  if (EVP_PKEY_derive(ctx, nullptr, &secretLen) <= 0) {
+    EVP_PKEY_CTX_free(ctx);
+    EVP_PKEY_free(peerKey);
+    throw std::runtime_error("Failed to get secret length: " + getOpenSSLError());
+  }
+
+  auto* secret = new uint8_t[secretLen];
+  if (EVP_PKEY_derive(ctx, secret, &secretLen) <= 0) {
+    delete[] secret;
+    EVP_PKEY_CTX_free(ctx);
+    EVP_PKEY_free(peerKey);
+    throw std::runtime_error("Failed to derive secret: " + getOpenSSLError());
+  }
+
+  EVP_PKEY_CTX_free(ctx);
+  EVP_PKEY_free(peerKey);
+
+  return std::make_shared<NativeArrayBuffer>(secret, secretLen, [=]() { delete[] secret; });
+}
+
 } // namespace margelo::nitro::crypto
