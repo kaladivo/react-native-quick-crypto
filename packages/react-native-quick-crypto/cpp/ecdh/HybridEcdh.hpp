@@ -28,6 +28,7 @@ public:
   std::shared_ptr<ArrayBuffer> getPublicKeyRaw(double format) override;
   std::shared_ptr<ArrayBuffer> getPrivateKeyRaw() override;
   void setPrivateKeyRaw(const std::shared_ptr<ArrayBuffer>& privateKey) override;
+  std::shared_ptr<ArrayBuffer> computeSecretRaw(const std::shared_ptr<ArrayBuffer>& otherPublicKey) override;
 
 private:
   std::string curve;

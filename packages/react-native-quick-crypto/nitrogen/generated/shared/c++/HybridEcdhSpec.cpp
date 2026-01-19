@@ -19,6 +19,7 @@ namespace margelo::nitro::crypto {
       prototype.registerHybridMethod("getPublicKeyRaw", &HybridEcdhSpec::getPublicKeyRaw);
       prototype.registerHybridMethod("getPrivateKeyRaw", &HybridEcdhSpec::getPrivateKeyRaw);
       prototype.registerHybridMethod("setPrivateKeyRaw", &HybridEcdhSpec::setPrivateKeyRaw);
+      prototype.registerHybridMethod("computeSecretRaw", &HybridEcdhSpec::computeSecretRaw);
     });
   }
 

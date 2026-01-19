@@ -55,6 +55,7 @@ namespace margelo::nitro::crypto {
       virtual std::shared_ptr<ArrayBuffer> getPublicKeyRaw(double format) = 0;
       virtual std::shared_ptr<ArrayBuffer> getPrivateKeyRaw() = 0;
       virtual void setPrivateKeyRaw(const std::shared_ptr<ArrayBuffer>& privateKey) = 0;
+      virtual std::shared_ptr<ArrayBuffer> computeSecretRaw(const std::shared_ptr<ArrayBuffer>& otherPublicKey) = 0;
 
     protected:
       // Hybrid Setup

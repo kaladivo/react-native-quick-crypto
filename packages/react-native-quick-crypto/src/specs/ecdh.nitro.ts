@@ -6,4 +6,5 @@ export interface Ecdh extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
   getPublicKeyRaw(format: number): ArrayBuffer;
   getPrivateKeyRaw(): ArrayBuffer;
   setPrivateKeyRaw(privateKey: ArrayBuffer): void;
+  computeSecretRaw(otherPublicKey: ArrayBuffer): ArrayBuffer;
 }
