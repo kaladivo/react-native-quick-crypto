@@ -97,24 +97,23 @@ Plans:
 3. Invalid public keys are rejected with `ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY` error
 4. Two parties with complementary key pairs derive identical shared secrets
 
-### Phase 3: Extras
+### Phase 3: Extras (SKIPPED)
 
 **Goal:** Users have access to deprecated compatibility methods and format conversion utilities.
 
+**Status:** Skipped — deprecated methods not needed for current use case
+
 **Dependencies:** Phase 1 (requires key infrastructure)
 
-**Plans:** (created by /gsd:plan-phase)
+**Plans:** None (skipped)
 
-**Requirements:**
+**Requirements (deferred):**
 - ECDH-19: `setPublicKey(key)` imports public key (deprecated but supported)
 - ECDH-20: `setPublicKey()` accepts compressed and uncompressed formats
 - ECDH-21: `ECDH.convertKey(key, curve, inputEncoding, outputEncoding, format)` static method
 - ECDH-22: `convertKey()` converts between compressed and uncompressed formats
 
-**Success Criteria:**
-1. User can call `setPublicKey()` to import a public key directly (for deprecated codepaths)
-2. User can convert public keys between compressed and uncompressed formats using `ECDH.convertKey()`
-3. `convertKey()` accepts hex input and returns hex output with format conversion
+**Note:** These can be implemented later if needed. Core ECDH functionality (createECDH, generateKeys, get/set keys, computeSecret) is complete.
 
 ## Progress
 
@@ -123,7 +122,7 @@ Plans:
 | 1 | Core ECDH | Complete | 13 |
 | 1.1 | Fix Expo Build | Complete | 0 (infrastructure) |
 | 2 | Secret Derivation | Complete | 7 |
-| 3 | Extras | Pending | 4 |
+| 3 | Extras | Skipped | 0 (deferred) |
 
 ---
 *Roadmap created: 2025-01-18*
@@ -132,3 +131,5 @@ Plans:
 *Phase 1.1 complete: 2026-01-18*
 *Phase 2 planned: 2026-01-19*
 *Phase 2 complete: 2026-01-19*
+*Phase 3 skipped: 2026-01-19*
+*Milestone complete: 2026-01-19*
