@@ -33,7 +33,7 @@ export class ECDH {
 
   setPrivateKey(
     privateKey: Buffer | ArrayBuffer | Uint8Array | string,
-    encoding?: ECDHEncoding
+    encoding?: ECDHEncoding,
   ): void {
     const keyBuffer = this.decodeInput(privateKey, encoding);
     this.native.setPrivateKeyRaw(keyBuffer);
@@ -42,7 +42,7 @@ export class ECDH {
   computeSecret(
     otherPublicKey: Buffer | ArrayBuffer | Uint8Array | string,
     inputEncoding?: ECDHEncoding,
-    outputEncoding?: ECDHEncoding
+    outputEncoding?: ECDHEncoding,
   ): Buffer | string {
     try {
       const keyBuffer = this.decodeInput(otherPublicKey, inputEncoding);
@@ -52,7 +52,8 @@ export class ECDH {
       const msg = e instanceof Error ? e.message : String(e);
       if (msg.includes('ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY')) {
         const err = new Error('Invalid EC public key');
-        (err as NodeJS.ErrnoException).code = 'ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY';
+        (err as NodeJS.ErrnoException).code =
+          'ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY';
         throw err;
       }
       throw e;
@@ -61,7 +62,7 @@ export class ECDH {
 
   private encodeOutput(
     data: ArrayBuffer,
-    encoding?: ECDHEncoding
+    encoding?: ECDHEncoding,
   ): Buffer | string {
     const buf = Buffer.from(data);
     if (!encoding) return buf;
@@ -71,7 +72,7 @@ export class ECDH {
 
   private decodeInput(
     data: Buffer | ArrayBuffer | Uint8Array | string,
-    encoding?: ECDHEncoding
+    encoding?: ECDHEncoding,
   ): ArrayBuffer {
     let buf: Buffer;
     if (typeof data === 'string') {
@@ -91,7 +92,9 @@ export class ECDH {
 const SUPPORTED_CURVES = ['secp256k1'] as const;
 
 export function createECDH(curveName: string): ECDH {
-  if (!SUPPORTED_CURVES.includes(curveName as (typeof SUPPORTED_CURVES)[number])) {
+  if (
+    !SUPPORTED_CURVES.includes(curveName as (typeof SUPPORTED_CURVES)[number])
+  ) {
     const err = new Error(`Unsupported curve: ${curveName}`);
     (err as NodeJS.ErrnoException).code = 'ERR_CRYPTO_INVALID_CURVE';
     throw err;

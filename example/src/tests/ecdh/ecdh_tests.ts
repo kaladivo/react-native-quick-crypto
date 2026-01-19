@@ -13,7 +13,7 @@ const SUITE = 'ecdh';
 // Test 1: Create ECDH instance
 test(SUITE, 'createECDH("secp256k1") returns ECDH instance', () => {
   const ecdh = createECDH('secp256k1');
-  expect(ecdh).to.not.be.undefined;
+  expect(ecdh !== undefined).to.equal(true);
   expect(ecdh).to.have.property('generateKeys');
   expect(ecdh).to.have.property('getPublicKey');
   expect(ecdh).to.have.property('getPrivateKey');
@@ -36,7 +36,7 @@ test(SUITE, 'generateKeys("hex") returns 130-char hex string', () => {
   const pubKeyHex = ecdh.generateKeys('hex');
   expect(pubKeyHex).to.be.a('string');
   expect(pubKeyHex).to.have.length(130); // 65 bytes * 2 hex chars
-  expect(pubKeyHex.startsWith('04')).to.be.true; // uncompressed prefix
+  expect(pubKeyHex.startsWith('04')).to.equal(true); // uncompressed prefix
   console.log('[ECDH] generateKeys hex:', pubKeyHex.substring(0, 20) + '...');
 });
 
@@ -67,8 +67,8 @@ test(SUITE, 'getPublicKey("hex", "compressed") returns 66-char hex', () => {
   expect(pubKeyCompressed).to.be.a('string');
   expect(pubKeyCompressed).to.have.length(66); // 33 bytes * 2 hex chars
   expect(
-    pubKeyCompressed.startsWith('02') || pubKeyCompressed.startsWith('03')
-  ).to.be.true; // compressed prefixes
+    pubKeyCompressed.startsWith('02') || pubKeyCompressed.startsWith('03'),
+  ).to.equal(true); // compressed prefixes
   console.log('[ECDH] compressed public key:', pubKeyCompressed);
 });
 
@@ -108,7 +108,7 @@ test(SUITE, 'computeSecret() derives identical secrets for two parties', () => {
   expect(aliceSecret).to.have.length(32);
   expect(bobSecret).to.have.length(32);
   expect(Buffer.from(aliceSecret as Buffer).toString('hex')).to.equal(
-    Buffer.from(bobSecret as Buffer).toString('hex')
+    Buffer.from(bobSecret as Buffer).toString('hex'),
   );
   console.log('[ECDH] computeSecret: Alice and Bob derived identical secrets');
 });
@@ -124,7 +124,10 @@ test(SUITE, 'computeSecret("hex") returns 64-char hex string', () => {
   const secret = alice.computeSecret(bob.getPublicKey('hex'), 'hex', 'hex');
   expect(secret).to.be.a('string');
   expect(secret).to.have.length(64); // 32 bytes * 2 hex chars
-  console.log('[ECDH] computeSecret hex:', (secret as string).substring(0, 16) + '...');
+  console.log(
+    '[ECDH] computeSecret hex:',
+    (secret as string).substring(0, 16) + '...',
+  );
 });
 
 // Test 11: computeSecret with compressed public key
@@ -166,22 +169,26 @@ test(SUITE, 'computeSecret() works after setPrivateKey', () => {
 });
 
 // Test 13: computeSecret throws for invalid public key
-test(SUITE, 'computeSecret() throws ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY for invalid key', () => {
-  const ecdh = createECDH('secp256k1');
-  ecdh.generateKeys();
+test(
+  SUITE,
+  'computeSecret() throws ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY for invalid key',
+  () => {
+    const ecdh = createECDH('secp256k1');
+    ecdh.generateKeys();
 
-  // Invalid public key - wrong size
-  const invalidKey = Buffer.alloc(32, 0x04);
+    // Invalid public key - wrong size
+    const invalidKey = Buffer.alloc(32, 0x04);
 
-  try {
-    ecdh.computeSecret(invalidKey);
-    expect.fail('Should have thrown');
-  } catch (e: unknown) {
-    const err = e as NodeJS.ErrnoException;
-    expect(err.code).to.equal('ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY');
-    console.log('[ECDH] Invalid key correctly rejected with error code');
-  }
-});
+    try {
+      ecdh.computeSecret(invalidKey);
+      expect.fail('Should have thrown');
+    } catch (e: unknown) {
+      const err = e as NodeJS.ErrnoException;
+      expect(err.code).to.equal('ERR_CRYPTO_ECDH_INVALID_PUBLIC_KEY');
+      console.log('[ECDH] Invalid key correctly rejected with error code');
+    }
+  },
+);
 
 // Test 14: computeSecret throws for point not on curve
 test(SUITE, 'computeSecret() throws for public key not on curve', () => {
@@ -207,9 +214,11 @@ test(SUITE, 'computeSecret() throws for public key not on curve', () => {
 test(SUITE, 'computeSecret() matches Node.js test vector', () => {
   // Test vector: deterministic keys for reproducible test
   // Alice private key (32 bytes hex)
-  const alicePrivHex = 'c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721';
+  const alicePrivHex =
+    'c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721';
   // Bob private key (32 bytes hex)
-  const bobPrivHex = '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef';
+  const bobPrivHex =
+    '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef';
 
   const alice = createECDH('secp256k1');
   alice.setPrivateKey(alicePrivHex, 'hex');
